@@ -1,25 +1,60 @@
 # StellarCrop API
 
-This package is the starter backend for StellarCrop. It is intentionally small so it can later become a standalone `stellarcrop-api` repo.
+Backend API for StellarCrop.
 
-## Current scope
+This service exposes business-domain endpoints that power the web app and operational tools. It sits between clients and chain/indexed data.
 
-- Health check endpoint.
-- Placeholder receipt and issuer read endpoints.
-- Typed environment config.
-- Optional Postgres connection.
+## Responsibilities
 
-## Endpoints
+- Serve receipt, issuer, transfer, and market data
+- Enforce domain-level validation and permissions
+- Coordinate with indexer-derived state
+- Provide stable API contracts for frontend clients
+
+## Tech Stack
+
+- Node.js + TypeScript
+- Express
+- PostgreSQL (optional in current scaffold)
+
+## Local Development
+
+```bash
+npm install
+cp .env.example .env
+npm run dev
+```
+
+## Current Endpoints
 
 - `GET /health`
 - `GET /api/receipts`
 - `GET /api/issuers`
 
-## Run
+When `DATABASE_URL` is not configured, list endpoints return empty arrays so local development can proceed without infra.
 
-```bash
-cp .env.example .env
-npm run dev -w @stellarcrop/api
-```
+## Environment
 
-If `DATABASE_URL` is not set, list endpoints return empty arrays. This lets contributors run the service before the database/indexer work is complete.
+See `.env.example` for current variables:
+- `PORT`
+- `NODE_ENV`
+- `DATABASE_URL`
+- `STELLAR_NETWORK_PASSPHRASE`
+- `STELLAR_RPC_URL`
+
+## What Is Left (Issue-Ready)
+- Expand API surface for:
+  - Transfers
+  - Markets
+  - Settings/preferences
+- Add authN/authZ model for cooperative operators and farmers
+- Add input validation and shared error envelopes
+- Add DB migrations + seed scripts
+- Add OpenAPI spec and endpoint-level tests
+
+## Related Repositories
+
+- `stellarcrop-web`
+- `stellarcrop-indexer`
+- `stellarcrop-contracts`
+- `stellarcrop-shared`
